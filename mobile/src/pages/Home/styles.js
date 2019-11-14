@@ -2,10 +2,17 @@ import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
-  flex: 1;
+  /* flex: 1; */
   padding: 30px 20px;
   background: #141419;
   margin-top: 20px;
+`;
+
+export const ProductsList = styled.FlatList.attrs({
+  showsHorizontalScrollIndicator: false,
+  horizontal: true,
+})`
+  margin-right: 15px;
 `;
 
 export const Product = styled.View`
@@ -13,6 +20,7 @@ export const Product = styled.View`
   background: #fff;
   border-radius: 4px;
   padding: 10px;
+  margin-right: 15px;
 `;
 
 export const ProductImage = styled.Image`
@@ -30,15 +38,14 @@ export const ProductTitle = styled.Text`
 export const ProductPrice = styled.Text`
   font-weight: bold;
   font-size: 21px;
-
-  margin-bottom: 5px;
+  margin: 5px 0 10px;
 `;
 
 export const AddButton = styled(RectButton)`
   flex-direction: row;
   align-items: center;
 
-  margin-top: 15px;
+  margin-top: auto;
 
   background: #7159c1;
   height: 42px;

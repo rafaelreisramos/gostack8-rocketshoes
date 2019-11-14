@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import api from '../../services/api';
 
 import {
   Container,
+  ProductsList,
   Product,
   ProductPrice,
   AddButton,
@@ -13,18 +17,29 @@ import {
   AddButtonText,
 } from './styles';
 
-export default function Home() {
-  return (
-    <Container>
+export default class Home extends Component {
+  state = {
+    products: [],
+  };
+
+  async componentDidMount() {
+    const response = await api.get('/products');
+
+    this.setState({
+      products: response.data,
+    });
+  }
+
+  renderItem = ({ item }) => {
+    return (
       <Product>
         <ProductImage
           source={{
-            uri:
-              'https://images-americanas.b2w.io/produtos/01/00/sku/24994/7/24994745_1GG.jpg',
+            uri: item.image,
           }}
         />
-        <ProductTitle>Tênis de Caminhada Leve Confortável</ProductTitle>
-        <ProductPrice>129,90</ProductPrice>
+        <ProductTitle>{item.title}</ProductTitle>
+        <ProductPrice>{item.price}</ProductPrice>
         <AddButton>
           <AmountCart>
             <Icon name="add-shopping-cart" size={16} color="#fff" />
@@ -33,6 +48,20 @@ export default function Home() {
           <AddButtonText>ADICIONAR</AddButtonText>
         </AddButton>
       </Product>
-    </Container>
-  );
+    );
+  };
+
+  render() {
+    const { products } = this.state;
+
+    return (
+      <Container>
+        <ProductsList
+          data={products}
+          keyExtractor={product => product.id}
+          renderItem={this.renderItem}
+        />
+      </Container>
+    );
+  }
 }
