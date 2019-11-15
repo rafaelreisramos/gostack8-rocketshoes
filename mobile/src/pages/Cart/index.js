@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   Container,
+  CartContainer,
+  ProductList,
   Product,
   ProductInfo,
   ProductImage,
@@ -20,20 +23,19 @@ import {
   SubmitButtonText,
 } from './styles';
 
-export default function Cart() {
-  return (
-    <Container>
+function Cart({ cart }) {
+  function renderItem({ item }) {
+    return (
       <Product>
         <ProductInfo>
           <ProductImage
             source={{
-              uri:
-                'https://images-americanas.b2w.io/produtos/01/00/sku/24994/7/24994745_1GG.jpg',
+              uri: item.image,
             }}
           />
           <ProductDetails>
-            <ProductTitle>Tênis de Caminhada Leve Confortável</ProductTitle>
-            <ProductPrice>179,90</ProductPrice>
+            <ProductTitle>{item.title}</ProductTitle>
+            <ProductPrice>{item.price}</ProductPrice>
           </ProductDetails>
           <Icon name="delete-forever" size={24} color="#7159c1" />
         </ProductInfo>
@@ -45,6 +47,20 @@ export default function Cart() {
           </AmountContainer>
           <ProductSubtotal>539,70</ProductSubtotal>
         </ProductAmount>
+      </Product>
+    );
+  }
+
+  console.tron.log(cart);
+
+  return (
+    <Container>
+      <CartContainer>
+        <ProductList
+          data={cart}
+          keyExtractor={product => product.id}
+          renderItem={renderItem}
+        />
         <ProductTotal>
           <ProductTotalText>TOTAL</ProductTotalText>
           <ProductTotalPrice>1619,10</ProductTotalPrice>
@@ -52,7 +68,13 @@ export default function Cart() {
         <SubmitButton>
           <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
         </SubmitButton>
-      </Product>
+      </CartContainer>
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps)(Cart);
