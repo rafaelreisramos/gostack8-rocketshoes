@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import * as CartActions from '../../store/modules/cart/actions';
+import { formatPrice } from '../../util/format';
 
 import api from '../../services/api';
 
@@ -28,8 +29,13 @@ class Home extends Component {
   async componentDidMount() {
     const response = await api.get('/products');
 
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
+
     this.setState({
-      products: response.data,
+      products: data,
     });
   }
 
@@ -48,7 +54,7 @@ class Home extends Component {
           }}
         />
         <ProductTitle>{item.title}</ProductTitle>
-        <ProductPrice>{item.price}</ProductPrice>
+        <ProductPrice>{item.priceFormatted}</ProductPrice>
         <AddButton onPress={() => this.handleAddProduct(item)}>
           <AmountCart>
             <Icon name="add-shopping-cart" size={16} color="#fff" />
