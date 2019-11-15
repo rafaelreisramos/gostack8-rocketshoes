@@ -23,7 +23,7 @@ import {
   SubmitButtonText,
 } from './styles';
 
-function Cart({ cart }) {
+function Cart({ cart, dispatch }) {
   function renderItem({ item }) {
     return (
       <Product>
@@ -37,7 +37,12 @@ function Cart({ cart }) {
             <ProductTitle>{item.title}</ProductTitle>
             <ProductPrice>{item.price}</ProductPrice>
           </ProductDetails>
-          <Icon name="delete-forever" size={24} color="#7159c1" />
+          <Icon
+            name="delete-forever"
+            size={24}
+            color="#7159c1"
+            onPress={() => dispatch({ type: 'REMOVE_FROM_CART', id: item.id })}
+          />
         </ProductInfo>
         <ProductAmount>
           <AmountContainer>
