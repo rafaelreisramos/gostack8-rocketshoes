@@ -26,7 +26,15 @@ import {
   SubmitButtonText,
 } from './styles';
 
-function Cart({ cart, removeFromCart }) {
+function Cart({ cart, removeFromCart, updateAmount }) {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
+
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   function renderItem({ item }) {
     return (
       <Product>
@@ -49,9 +57,19 @@ function Cart({ cart, removeFromCart }) {
         </ProductInfo>
         <ProductAmount>
           <AmountContainer>
-            <Icon name="remove-circle-outline" size={20} color="#7159c1" />
+            <Icon
+              name="remove-circle-outline"
+              size={20}
+              color="#7159c1"
+              onPress={() => decrement(item)}
+            />
             <AmountText>{item.amount}</AmountText>
-            <Icon name="add-circle-outline" size={20} color="#7159c1" />
+            <Icon
+              name="add-circle-outline"
+              size={20}
+              color="#7159c1"
+              onPress={() => increment(item)}
+            />
           </AmountContainer>
           <ProductSubtotal>539,70</ProductSubtotal>
         </ProductAmount>
