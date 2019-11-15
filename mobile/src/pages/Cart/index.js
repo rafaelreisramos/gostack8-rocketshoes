@@ -42,7 +42,7 @@ function Cart({ cart }) {
         <ProductAmount>
           <AmountContainer>
             <Icon name="remove-circle-outline" size={20} color="#7159c1" />
-            <AmountText>3</AmountText>
+            <AmountText>{item.amount}</AmountText>
             <Icon name="add-circle-outline" size={20} color="#7159c1" />
           </AmountContainer>
           <ProductSubtotal>539,70</ProductSubtotal>
