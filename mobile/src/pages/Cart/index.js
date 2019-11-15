@@ -26,7 +26,7 @@ import {
   SubmitButtonText,
 } from './styles';
 
-function Cart({ cart, removeFromCart, updateAmount }) {
+function Cart({ cart, total, removeFromCart, updateAmount }) {
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
@@ -71,7 +71,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
               onPress={() => increment(item)}
             />
           </AmountContainer>
-          <ProductSubtotal>539,70</ProductSubtotal>
+          <ProductSubtotal>{item.subtotal}</ProductSubtotal>
         </ProductAmount>
       </Product>
     );
@@ -87,7 +87,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
         />
         <ProductTotal>
           <ProductTotalText>TOTAL</ProductTotalText>
-          <ProductTotalPrice>1619,10</ProductTotalPrice>
+          <ProductTotalPrice>{total}</ProductTotalPrice>
         </ProductTotal>
         <SubmitButton>
           <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
@@ -98,7 +98,13 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart,
+  cart: state.cart.map(product => ({
+    ...product,
+    subtotal: product.price * product.amount,
+  })),
+  total: state.cart.reduce((total, product) => {
+    return total + product.price * product.amount;
+  }, 0),
 });
 
 const mapDispatchToProps = dispatch =>
