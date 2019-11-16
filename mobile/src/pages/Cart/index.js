@@ -78,14 +78,9 @@ function Cart({ cart, total, removeFromCart, updateAmount }) {
     );
   }
 
-  return (
-    <Container>
-      <CartContainer>
-        <ProductList
-          data={cart}
-          keyExtractor={product => product.id}
-          renderItem={renderItem}
-        />
+  function renderFooter() {
+    return (
+      <>
         <ProductTotal>
           <ProductTotalText>TOTAL</ProductTotalText>
           <ProductTotalPrice>{total}</ProductTotalPrice>
@@ -93,6 +88,19 @@ function Cart({ cart, total, removeFromCart, updateAmount }) {
         <SubmitButton>
           <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
         </SubmitButton>
+      </>
+    );
+  }
+
+  return (
+    <Container>
+      <CartContainer>
+        <ProductList
+          data={cart}
+          keyExtractor={product => product.id}
+          renderItem={renderItem}
+          ListFooterComponent={() => renderFooter()}
+        />
       </CartContainer>
     </Container>
   );
