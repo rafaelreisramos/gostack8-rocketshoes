@@ -2,6 +2,8 @@ import { Alert } from 'react-native';
 import { call, select, put, all, takeLatest } from 'redux-saga/effects';
 
 import api from '../../../services/api';
+import NavigationService from '../../../services/navigation';
+
 import { formatPrice } from '../../../util/format';
 
 import { addToCartSuccess, updateAmountSuccess } from './actions';
@@ -36,6 +38,8 @@ function* addToCart({ id }) {
 
     yield put(addToCartSuccess(data));
   }
+
+  NavigationService.navigate('Cart');
 }
 
 function* updateAmount({ id, amount }) {
